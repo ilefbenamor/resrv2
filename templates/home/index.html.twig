@@ -1,20 +1,260 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil - Réservation d'Événements{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        @keyframes fadeInHero {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section {
+            animation: fadeInHero 2s ease-out;
+            padding-top: 100px;
+        }
+
+        @keyframes fadeInCards {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .event-card {
+            opacity: 0;
+            animation: fadeInCards 1s ease-out forwards;
+        }
+
+        .btn-primary {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.1);
+        }
+
+        .hero-title {
+            animation: fadeInHero 1.5s ease-out;
+        }
+
+        /* Couleurs navbar */
+        .navbar-scroll {
+            background-color: transparent !important;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .navbar-scrolled {
+            background-color: rgba(155, 36, 36, 0.95) !important;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* Liens navbar sur fond transparent */
+        .navbar-scroll .nav-link {
+            color: #ffffff !important;
+        }
+
+        .navbar-scroll .nav-link.active {
+            font-weight: bold;
+            color: #f1f1f1 !important;
+        }
+
+        .navbar-scroll .nav-link:hover {
+            color: #FF5733 !important;
+        }
+
+        /* Liens navbar après scroll */
+        .navbar-scrolled .nav-link {
+            color: #f8f9fa !important;
+        }
+
+        .navbar-scrolled .nav-link.active {
+            color: #ffffff !important;
+        }
+
+        /* SECTION PARTENAIRES */
+        .partner-logo {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: rgb(240, 240, 240); /* Gris clair */
+            color: white;
+            padding: 60px 0; /* Augmente l'espace vertical du footer */
+        }
+
+        footer .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px; /* Espacement plus grand entre les liens */
+            font-size: 1.1rem;
+        }
+
+        footer .footer-links a:hover {
+            color: #FF5733; /* Vous pouvez personnaliser la couleur au survol */
+        }
+
+        /* Largeur et positionnement du footer */
+        footer .container {
+            width: 100%; /* Le footer prend toute la largeur */
+            max-width: none; /* Désactive la largeur maximale pour qu'il soit aussi large que l'écran */
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<!-- NAVBAR -->
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top navbar-scroll">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
+            <img src="{{ asset('images/logo2.svg') }}" alt="Logo" style="height:100px; margin-right: 10px;">
+            <span style="font-family: 'Pacifico', cursive; font-size: 1.8rem; color: #FFFFFF;">
+                Click<span style="color: #FF5733;">Event</span>
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_home') }}" style="font-size: 1.1rem; padding: 0 15px;">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="font-size: 1.1rem; padding: 0 15px;">Événements à venir</a>
+                </li>
+                <li class="nav-item ms-3">
+                    <a href="{{ path('app_inscription') }}" class="btn btn-outline-light me-2">S'inscrire</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_login') }}" class="btn btn-light">Se connecter</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<!-- HERO SECTION -->
+<section id="hero" class="position-relative overflow-hidden hero-section" style="height: 100vh;">
+    <video autoplay muted loop class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" style="z-index: -1;">
+        <source src="{{ asset('videos/event-hype.mp4') }}" type="video/mp4">
+        Votre navigateur ne supporte pas la vidéo HTML5.
+    </video>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/hiba/reservation/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/home/hiba/reservation/templates/home/index.html.twig</code></li>
-    </ul>
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 text-white text-center bg-dark bg-opacity-50">
+        <h1 class="display-3 fw-bold mb-3 hero-title" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">
+            Vivez des expériences inoubliables 🎉
+        </h1>
+        <p class="lead mb-4">Réservez vos places pour les meilleurs événements de l'année !</p>
+        <a href="{{ path('app_inscription') }}" class="btn btn-lg btn-primary px-4 py-2">Commencer maintenant</a>
+    </div>
+</section>
+
+<!-- CONTENU PRINCIPAL -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Nos événements à venir</h1>
+    <p class="text-center">Découvrez ce que nous avons prévu pour vous ! Réservez dès maintenant.</p>
+
+    <div class="row mt-4">
+        {% set events = [
+            {
+                title: 'Concert Live',
+                img: 'images/image.jpeg',
+                desc: 'Un concert exceptionnel avec des artistes renommés. Ambiance garantie !',
+                date: '25/04/2025'
+            },
+            {
+                title: 'Conférence Tech',
+                img: 'images/event3.jpeg',
+                desc: 'Rejoignez-nous pour une journée dédiée aux dernières innovations technologiques.',
+                date: '30/04/2025'
+            },
+            {
+                title: 'Festival de Cinéma',
+                img: 'images/event4.jpeg',
+                desc: 'Un week-end de projections de films indépendants avec des invités spéciaux.',
+                date: '05/05/2025'
+            },
+            {
+                title: 'Tournoi de eSport',
+                img: 'images/event5.jpeg',
+                desc: 'Compétition entre les meilleures équipes de jeux vidéo. Venez encourager vos favoris !',
+                date: '10/05/2025'
+            },
+            {
+                title: 'Salon du Livre',
+                img: 'images/event9.jpeg',
+                desc: 'Rencontrez vos auteurs préférés et découvrez les dernières parutions littéraires.',
+                date: '15/05/2025'
+            },
+            {
+                title: 'Expo Art & Culture',
+                img: 'images/event8.jpeg',
+                desc: 'Une exposition immersive d’œuvres contemporaines et de traditions locales.',
+                date: '20/05/2025'
+            }
+        ] %}
+
+        {% for event in events %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm event-card" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                    <img src="{{ asset(event.img) }}" class="card-img-top" alt="{{ event.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.desc }}</p>
+                        <p class="card-text"><small class="text-muted">Date : {{ event.date }}</small></p>
+                        <a href="#" class="btn btn-primary">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
+<!-- SECTION PARTENAIRES -->
+<section class="py-5 bg-secondary mt-5">
+    <div class="container text-center">
+        <h2 class="mb-4" style="font-weight: bold;">Nos partenaires & organisateurs</h2>
+        <p class="mb-5 text-muted">Ils nous font confiance pour créer des événements inoubliables.</p>
+
+        <div class="row justify-content-center align-items-center g-4">
+            {% set partners = [
+                'images/e11.png',
+                'images/e9.png',
+                'images/e3.png',
+                'images/e19.png',
+                'images/e18.png'
+            ] %}
+
+            {% for logo in partners %}
+                <div class="col-6 col-md-2">
+                    <div class="partner-logo p-3 bg-white shadow-sm rounded-3 h-100 d-flex align-items-center justify-content-center">
+                        <img src="{{ asset(logo) }}" alt="Logo partenaire" class="img-fluid" style="max-height: 60px;">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class=" bg-lightgray t-ext-white py-5">
+    <div class="container text-center">
+        <p>&copy; 2025 ClickEvent. Tous droits réservés.</p>
+        <div class="footer-links">
+            <a href="#" class="mx-3">Mentions légales</a>
+            <a href="#" class="mx-3">Politique de confidentialité</a>
+            <a href="#" class="mx-3">Contact</a>
+        </div>
+    </div>
+</footer>
 {% endblock %}
